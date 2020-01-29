@@ -34,5 +34,10 @@
 		" i.NAME ",
 		"ORDER  BY 3 desc"],
 		"description": "Find all table order by row count"
+	},
+	"descrição":{
+		"prefix": "sqlNomeProcura",
+		"body": "select lala",
+		"description": "Explicar o que vai fazer"
 	}
 }
