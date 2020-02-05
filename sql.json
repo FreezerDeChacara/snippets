@@ -1,16 +1,16 @@
 {
 	"Select TOP 10 Rows": {
-        "prefix": "sqlTop10Select",
+        "prefix": "sqlCSTop10Select",
         "body": "SELECT TOP 10 * FROM ${1:TableName}",
         "description": "it reads top 10 records from specified table"
         },
 	"Select count Rows": {
-        "prefix": "sqlCountAll",
+        "prefix": "sqlCSCountAll",
         "body": "SELECT count(*) FROM ${1:TableName}",
         "description": "it count all records from specified table"
 		},
 	"Find big table":{
-		"prefix": "sqlFindBigTables",
+		"prefix": "sqlCSFindBigTables",
 		"body": ["SELECT t.NAME AS TableName, ",
 		 "i.NAME                            AS indexName, ",
 		 "Sum(p.rows)                       AS RowCounts, ",
@@ -36,9 +36,26 @@
 		"description": "Find all table order by row count"
 	},
 	"Select veiculo":{
-		"prefix": "sqlVeiculoCS",
+		"prefix": "sqlCSVeiculo",
 		"body": "select placa, nome, * from veiculo where id = ${1:VeiculoId}",
 		"description": "Select veiculo"
+	},
+	"Versão do Servidor CS":{
+		"prefix": "sqlCSVersaoServidor",
+		"body": "select * from config where secao = 'servidor'",
+		"description": "Versão do servidor do CS"
+	},
+	"Verificar Indices":{
+		"prefix": "sqlCSVerificarIndex",
+		"body": [
+			"SELECT 'dbcc dbreindex(''' +  t.NAME  +''','''',95);' saida ",
+			"FROM sys.Dm_db_index_physical_stats(DB_ID(), NULL, NULL, NULL, NULL) A ",
+			"  JOIN  sys.indexes B  ON a.object_id = B.object_id AND A.index_id = B.index_id ",
+			"  JOIN  sys.tables t ON t.object_id = b.object_id WHERE  avg_fragmentation_in_percent > 30   AND page_count > 1000 ",
+			"  AND B.NAME IS NOT NULL ",
+			"group by t.NAME order by saida"
+		],
+		"description": "Verificar os indices e gerar o reindex"
 	},
 	"descrição":{
 		"prefix": "sqlNomeProcura",
